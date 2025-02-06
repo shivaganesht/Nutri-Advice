@@ -1,78 +1,88 @@
 
-
-
-
-// import React, { useState } from 'react';
-// import './App.css';
+// import React, { useState } from "react";
+// import ReactMarkdown from "react-markdown"; 
 
 // function App() {
-//   const [activeTab, setActiveTab] = useState('advice');
+//   const [activeTab, setActiveTab] = useState("advice");
 
-//   // State for the Nutrition Advice form
+
+//   const [bmiForm, setBmiForm] = useState({ weight: "", heightInFeet: "" });
+//   const [bmiResult, setBmiResult] = useState(null);
+
+  
 //   const [adviceForm, setAdviceForm] = useState({
-//     age: '',
-//     gender: '',
-//     weight: '',
-//     heightInFeet: '',
-//     healthIssues: '',
-//     fruits: '',
-//     vegetables: '',
-//     proteinSources: '',
-//     wholeGrains: '',
-//     micronutrientDeficiency: ''
+//     age: "",
+//     gender: "",
+//     weight: "",
+//     heightInFeet: "",
+//     healthIssues: "",
+//     fruits: "",
+//     vegetables: "",
+//     proteinSources: "",
+//     wholeGrains: "",
+//     micronutrientDeficiency: "",
 //   });
 //   const [adviceResult, setAdviceResult] = useState(null);
 
-//   // State for the Meal Plan form
+  
 //   const [mealPlanForm, setMealPlanForm] = useState({
-//     age: '',
-//     gender: '',
-//     weight: '',
-//     heightInFeet: '',
-//     healthIssues: '',
-//     fruits: '',
-//     vegetables: '',
-//     proteinSources: '',
-//     wholeGrains: '',
-//     micronutrientDeficiency: '',
-//     cuisinePreference: ''
+//     age: "",
+//     gender: "",
+//     weight: "",
+//     heightInFeet: "",
+//     healthIssues: "",
+//     fruits: "",
+//     vegetables: "",
+//     proteinSources: "",
+//     wholeGrains: "",
+//     micronutrientDeficiency: "",
+//     cuisinePreference: "",
 //   });
 //   const [mealPlanResult, setMealPlanResult] = useState(null);
 
-//   // State for the Detailed Analysis form
+  
 //   const [analysisForm, setAnalysisForm] = useState({
-//     age: '',
-//     gender: '',
-//     weight: '',
-//     heightInFeet: '',
-//     healthIssues: '',
-//     fruits: '',
-//     vegetables: '',
-//     proteinSources: '',
-//     wholeGrains: '',
-//     micronutrientDeficiency: ''
+//     age: "",
+//     gender: "",
+//     weight: "",
+//     heightInFeet: "",
+//     healthIssues: "",
+//     fruits: "",
+//     vegetables: "",
+//     proteinSources: "",
+//     wholeGrains: "",
+//     micronutrientDeficiency: "",
 //   });
 //   const [analysisResult, setAnalysisResult] = useState(null);
 
-//   // Handle input changes for each form
-//   const handleInputChange = (formName, e) => {
-//     const { name, value } = e.target;
-//     if (formName === 'advice') {
-//       setAdviceForm((prev) => ({ ...prev, [name]: value }));
-//     } else if (formName === 'mealPlan') {
-//       setMealPlanForm((prev) => ({ ...prev, [name]: value }));
-//     } else if (formName === 'analysis') {
-//       setAnalysisForm((prev) => ({ ...prev, [name]: value }));
+  
+//   const handleChange = (setter) => (e) => {
+//     setter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+//   };
+
+  
+//   const handleBMISubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await fetch("http://localhost:5000/api/bmi", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           weight: Number(bmiForm.weight),
+//           heightInFeet: Number(bmiForm.heightInFeet),
+//         }),
+//       });
+//       const data = await res.json();
+//       setBmiResult(data.bmi);
+//     } catch (error) {
+//       console.error("Error calculating BMI:", error);
 //     }
 //   };
 
-//   // Handle form submissions for each feature
-//   const handleSubmit = async (formName, e) => {
+//   const handleAdviceSubmit = async (e) => {
 //     e.preventDefault();
-//     let payload, endpoint;
-
-//     if (formName === 'advice') {
-//       payload = {
+//     try {
+//       const payload = {
 //         age: Number(adviceForm.age),
 //         gender: adviceForm.gender,
 //         weight: Number(adviceForm.weight),
@@ -83,12 +93,26 @@
 //           vegetables: Number(adviceForm.vegetables),
 //           proteinSources: Number(adviceForm.proteinSources),
 //           wholeGrains: Number(adviceForm.wholeGrains),
-//           micronutrientDeficiency: adviceForm.micronutrientDeficiency || "none"
-//         }
+//           micronutrientDeficiency: adviceForm.micronutrientDeficiency || "none",
+//         },
 //       };
-//       endpoint = 'http://localhost:5000/api/nutrition-advice';
-//     } else if (formName === 'mealPlan') {
-//       payload = {
+
+//       const res = await fetch("http://localhost:5000/api/nutrition-advice", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(payload),
+//       });
+//       const data = await res.json();
+//       setAdviceResult(data);
+//     } catch (error) {
+//       console.error("Error getting advice:", error);
+//     }
+//   };
+
+//   const handleMealPlanSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const payload = {
 //         age: Number(mealPlanForm.age),
 //         gender: mealPlanForm.gender,
 //         weight: Number(mealPlanForm.weight),
@@ -99,13 +123,27 @@
 //           vegetables: Number(mealPlanForm.vegetables),
 //           proteinSources: Number(mealPlanForm.proteinSources),
 //           wholeGrains: Number(mealPlanForm.wholeGrains),
-//           micronutrientDeficiency: mealPlanForm.micronutrientDeficiency || "none"
+//           micronutrientDeficiency: mealPlanForm.micronutrientDeficiency || "none",
 //         },
-//         cuisinePreference: mealPlanForm.cuisinePreference || "Any"
+//         cuisinePreference: mealPlanForm.cuisinePreference || "Any",
 //       };
-//       endpoint = 'http://localhost:5000/api/meal-plan';
-//     } else if (formName === 'analysis') {
-//       payload = {
+
+//       const res = await fetch("http://localhost:5000/api/meal-plan", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(payload),
+//       });
+//       const data = await res.json();
+//       setMealPlanResult(data.mealPlan);
+//     } catch (error) {
+//       console.error("Error getting meal plan:", error);
+//     }
+//   };
+
+//   const handleAnalysisSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const payload = {
 //         age: Number(analysisForm.age),
 //         gender: analysisForm.gender,
 //         weight: Number(analysisForm.weight),
@@ -116,143 +154,454 @@
 //           vegetables: Number(analysisForm.vegetables),
 //           proteinSources: Number(analysisForm.proteinSources),
 //           wholeGrains: Number(analysisForm.wholeGrains),
-//           micronutrientDeficiency: analysisForm.micronutrientDeficiency || "none"
-//         }
+//           micronutrientDeficiency: analysisForm.micronutrientDeficiency || "none",
+//         },
 //       };
-//       endpoint = 'http://localhost:5000/api/detailed-analysis';
-//     }
 
-//     try {
-//       const response = await fetch(endpoint, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(payload)
+//       const res = await fetch("http://localhost:5000/api/detailed-analysis", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(payload),
 //       });
-//       const result = await response.json();
-//       if (formName === 'advice') {
-//         setAdviceResult(result);
-//       } else if (formName === 'mealPlan') {
-//         setMealPlanResult(result);
-//       } else if (formName === 'analysis') {
-//         setAnalysisResult(result);
-//       }
+//       const data = await res.json();
+//       setAnalysisResult(data.analysis);
 //     } catch (error) {
-//       console.error('Error:', error);
+//       console.error("Error getting analysis:", error);
 //     }
 //   };
 
+ 
 //   return (
-//     <div className="App">
-//       <h1>Nutrition Advisor</h1>
-//       <div className="tabs">
-//         <button onClick={() => setActiveTab('advice')} className={activeTab === 'advice' ? 'active' : ''}>
-//           Nutrition Advice
-//         </button>
-//         <button onClick={() => setActiveTab('mealPlan')} className={activeTab === 'mealPlan' ? 'active' : ''}>
-//           Meal Plan
-//         </button>
-//         <button onClick={() => setActiveTab('analysis')} className={activeTab === 'analysis' ? 'active' : ''}>
-//           Detailed Analysis
-//         </button>
+//     <div className="min-h-screen bg-gray-100 p-4">
+//       <h1 className="text-3xl font-bold text-center mb-8">Nutrition Advisor</h1>
+
+//       {/* Tabs */}
+//       <div className="flex justify-center space-x-4 mb-8">
+//         {[
+//           { key: "bmi", label: "BMI Calculator" },
+//           { key: "advice", label: "Nutrition Advice" },
+//           { key: "mealPlan", label: "Meal Plan" },
+//           { key: "analysis", label: "Dietary Analysis" },
+//         ].map((tab) => (
+//           <button
+//             key={tab.key}
+//             onClick={() => setActiveTab(tab.key)}
+//             className={`px-4 py-2 rounded ${
+//               activeTab === tab.key
+//                 ? "bg-blue-600 text-white"
+//                 : "bg-white text-blue-600 border border-blue-600"
+//             }`}
+//           >
+//             {tab.label}
+//           </button>
+//         ))}
 //       </div>
 
-//       {/* Nutrition Advice Form */}
-//       {activeTab === 'advice' && (
-//         <div className="form-container">
-//           <h2>Get Nutrition Advice</h2>
-//           <form onSubmit={(e) => handleSubmit('advice', e)}>
-//             <input type="number" name="age" placeholder="Age" value={adviceForm.age} onChange={(e) => handleInputChange('advice', e)} required />
-//             <select name="gender" value={adviceForm.gender} onChange={(e) => handleInputChange('advice', e)} required>
-//               <option value="">Select Gender</option>
-//               <option value="Male">Male</option>
-//               <option value="Female">Female</option>
-//               <option value="Other">Other</option>
-//             </select>
-//             <input type="number" name="weight" placeholder="Weight (kg)" value={adviceForm.weight} onChange={(e) => handleInputChange('advice', e)} required />
-//             <input type="number" name="heightInFeet" placeholder="Height (feet)" value={adviceForm.heightInFeet} onChange={(e) => handleInputChange('advice', e)} required />
-//             <textarea name="healthIssues" placeholder="Health issues (if any)" value={adviceForm.healthIssues} onChange={(e) => handleInputChange('advice', e)}></textarea>
-//             <h3>Dietary Habits (Frequency per week)</h3>
-//             <input type="number" name="fruits" placeholder="Fruits servings" value={adviceForm.fruits} onChange={(e) => handleInputChange('advice', e)} required />
-//             <input type="number" name="vegetables" placeholder="Vegetables servings" value={adviceForm.vegetables} onChange={(e) => handleInputChange('advice', e)} required />
-//             <input type="number" name="proteinSources" placeholder="Protein source servings" value={adviceForm.proteinSources} onChange={(e) => handleInputChange('advice', e)} required />
-//             <input type="number" name="wholeGrains" placeholder="Whole grains servings" value={adviceForm.wholeGrains} onChange={(e) => handleInputChange('advice', e)} required />
-//             <input type="text" name="micronutrientDeficiency" placeholder="Micronutrient deficiency (if any, else 'none')" value={adviceForm.micronutrientDeficiency} onChange={(e) => handleInputChange('advice', e)} required />
-//             <button type="submit">Get Advice</button>
+      
+//       {activeTab === "bmi" && (
+//         <div className="max-w-md mx-auto bg-white shadow rounded p-6">
+//           <h2 className="text-2xl font-semibold mb-4">BMI Calculator</h2>
+//           <form onSubmit={handleBMISubmit}>
+//             <input
+//               type="number"
+//               name="weight"
+//               placeholder="Weight (kg)"
+//               value={bmiForm.weight}
+//               onChange={handleChange(setBmiForm)}
+//               className="w-full p-2 mb-4 border rounded"
+//               required
+//             />
+//             <input
+//               type="number"
+//               name="heightInFeet"
+//               placeholder="Height (feet)"
+//               value={bmiForm.heightInFeet}
+//               onChange={handleChange(setBmiForm)}
+//               className="w-full p-2 mb-4 border rounded"
+//               required
+//             />
+//             <button
+//               type="submit"
+//               className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+//             >
+//               Calculate BMI
+//             </button>
+//           </form>
+//           {bmiResult !== null && (
+//             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded">
+//               <strong>Your BMI:</strong> {bmiResult}
+//             </div>
+//           )}
+//         </div>
+//       )}
+
+      
+//       {activeTab === "advice" && (
+//         <div className=" mx-auto bg-white shadow rounded p-6">
+//           <h2 className="text-2xl font-semibold mb-4">Get Nutrition Advice</h2>
+//           <form onSubmit={handleAdviceSubmit}>
+//             <div className="grid grid-cols-2 gap-4">
+//               <input
+//                 type="number"
+//                 name="age"
+//                 placeholder="Age"
+//                 value={adviceForm.age}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <select
+//                 name="gender"
+//                 value={adviceForm.gender}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               >
+//                 <option value="">Select Gender</option>
+//                 <option value="Male">Male</option>
+//                 <option value="Female">Female</option>
+//                 <option value="Other">Other</option>
+//               </select>
+//             </div>
+//             <div className="mt-4">
+//               <input
+//                 type="number"
+//                 name="weight"
+//                 placeholder="Weight (kg)"
+//                 value={adviceForm.weight}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="heightInFeet"
+//                 placeholder="Height (feet)"
+//                 value={adviceForm.heightInFeet}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//                 required
+//               />
+//               <textarea
+//                 name="healthIssues"
+//                 placeholder="Health issues (if any)"
+//                 value={adviceForm.healthIssues}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//               />
+//             </div>
+//             <h3 className="text-lg font-medium mb-2">Dietary Habits (per week)</h3>
+//             <div className="grid grid-cols-2 gap-4">
+//               <input
+//                 type="number"
+//                 name="fruits"
+//                 placeholder="Fruits servings"
+//                 value={adviceForm.fruits}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="vegetables"
+//                 placeholder="Vegetables servings"
+//                 value={adviceForm.vegetables}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="proteinSources"
+//                 placeholder="Protein servings"
+//                 value={adviceForm.proteinSources}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="wholeGrains"
+//                 placeholder="Whole grains servings"
+//                 value={adviceForm.wholeGrains}
+//                 onChange={handleChange(setAdviceForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//             </div>
+//             <input
+//               type="text"
+//               name="micronutrientDeficiency"
+//               placeholder="Micronutrient deficiency (or 'none')"
+//               value={adviceForm.micronutrientDeficiency}
+//               onChange={handleChange(setAdviceForm)}
+//               className="w-full p-2 mt-4 mb-4 border rounded"
+//               required
+//             />
+//             <button
+//               type="submit"
+//               className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+//             >
+//               Get Advice
+//             </button>
 //           </form>
 //           {adviceResult && (
-//             <div className="result">
-//               <p><strong>BMI:</strong> {adviceResult.bmi}</p>
-//               <p><strong>Issue:</strong> {adviceResult.nutritionProblem}</p>
-//               <p><strong>Advice:</strong> {adviceResult.advice}</p>
+//             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded">
+//               <ReactMarkdown>
+//                 {`**BMI:** ${adviceResult.bmi}\n\n**Issue:** ${adviceResult.nutritionProblem}\n\n**Advice:**\n\n${adviceResult.advice}`}
+//               </ReactMarkdown>
 //             </div>
 //           )}
 //         </div>
 //       )}
 
-//       {/* Meal Plan Form */}
-//       {activeTab === 'mealPlan' && (
-//         <div className="form-container">
-//           <h2>Get Meal Plan</h2>
-//           <form onSubmit={(e) => handleSubmit('mealPlan', e)}>
-//             <input type="number" name="age" placeholder="Age" value={mealPlanForm.age} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <select name="gender" value={mealPlanForm.gender} onChange={(e) => handleInputChange('mealPlan', e)} required>
-//               <option value="">Select Gender</option>
-//               <option value="Male">Male</option>
-//               <option value="Female">Female</option>
-//               <option value="Other">Other</option>
-//             </select>
-//             <input type="number" name="weight" placeholder="Weight (kg)" value={mealPlanForm.weight} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <input type="number" name="heightInFeet" placeholder="Height (feet)" value={mealPlanForm.heightInFeet} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <textarea name="healthIssues" placeholder="Health issues (if any)" value={mealPlanForm.healthIssues} onChange={(e) => handleInputChange('mealPlan', e)}></textarea>
-//             <h3>Dietary Habits (Frequency per week)</h3>
-//             <input type="number" name="fruits" placeholder="Fruits servings" value={mealPlanForm.fruits} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <input type="number" name="vegetables" placeholder="Vegetables servings" value={mealPlanForm.vegetables} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <input type="number" name="proteinSources" placeholder="Protein source servings" value={mealPlanForm.proteinSources} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <input type="number" name="wholeGrains" placeholder="Whole grains servings" value={mealPlanForm.wholeGrains} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <input type="text" name="micronutrientDeficiency" placeholder="Micronutrient deficiency (if any, else 'none')" value={mealPlanForm.micronutrientDeficiency} onChange={(e) => handleInputChange('mealPlan', e)} required />
-//             <input type="text" name="cuisinePreference" placeholder="Cuisine Preference (optional)" value={mealPlanForm.cuisinePreference} onChange={(e) => handleInputChange('mealPlan', e)} />
-//             <button type="submit">Get Meal Plan</button>
+      
+//       {activeTab === "mealPlan" && (
+//         <div className="max-w-lg mx-auto bg-white shadow rounded p-6">
+//           <h2 className="text-2xl font-semibold mb-4">Get Meal Plan</h2>
+//           <form onSubmit={handleMealPlanSubmit}>
+//             <div className="grid grid-cols-2 gap-4">
+//               <input
+//                 type="number"
+//                 name="age"
+//                 placeholder="Age"
+//                 value={mealPlanForm.age}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <select
+//                 name="gender"
+//                 value={mealPlanForm.gender}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               >
+//                 <option value="">Select Gender</option>
+//                 <option value="Male">Male</option>
+//                 <option value="Female">Female</option>
+//                 <option value="Other">Other</option>
+//               </select>
+//             </div>
+//             <div className="mt-4">
+//               <input
+//                 type="number"
+//                 name="weight"
+//                 placeholder="Weight (kg)"
+//                 value={mealPlanForm.weight}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="heightInFeet"
+//                 placeholder="Height (feet)"
+//                 value={mealPlanForm.heightInFeet}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//                 required
+//               />
+//               <textarea
+//                 name="healthIssues"
+//                 placeholder="Health issues (if any)"
+//                 value={mealPlanForm.healthIssues}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//               />
+//             </div>
+//             <h3 className="text-lg font-medium mb-2">Dietary Habits (per week)</h3>
+//             <div className="grid grid-cols-2 gap-4">
+//               <input
+//                 type="number"
+//                 name="fruits"
+//                 placeholder="Fruits servings"
+//                 value={mealPlanForm.fruits}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="vegetables"
+//                 placeholder="Vegetables servings"
+//                 value={mealPlanForm.vegetables}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="proteinSources"
+//                 placeholder="Protein servings"
+//                 value={mealPlanForm.proteinSources}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="wholeGrains"
+//                 placeholder="Whole grains servings"
+//                 value={mealPlanForm.wholeGrains}
+//                 onChange={handleChange(setMealPlanForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//             </div>
+//             <input
+//               type="text"
+//               name="micronutrientDeficiency"
+//               placeholder="Micronutrient deficiency (or 'none')"
+//               value={mealPlanForm.micronutrientDeficiency}
+//               onChange={handleChange(setMealPlanForm)}
+//               className="w-full p-2 mt-4 mb-4 border rounded"
+//               required
+//             />
+//             <input
+//               type="text"
+//               name="cuisinePreference"
+//               placeholder="Preferred Cuisine (optional)"
+//               value={mealPlanForm.cuisinePreference}
+//               onChange={handleChange(setMealPlanForm)}
+//               className="w-full p-2 mb-4 border rounded"
+//             />
+//             <button
+//               type="submit"
+//               className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+//             >
+//               Get Meal Plan
+//             </button>
 //           </form>
 //           {mealPlanResult && (
-//             <div className="result">
-//               <p><strong>Meal Plan:</strong></p>
-//               <pre>{mealPlanResult.mealPlan}</pre>
+//             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded whitespace-pre-wrap">
+//               <ReactMarkdown>{mealPlanResult}</ReactMarkdown>
 //             </div>
 //           )}
 //         </div>
 //       )}
 
-//       {/* Detailed Analysis Form */}
-//       {activeTab === 'analysis' && (
-//         <div className="form-container">
-//           <h2>Detailed Dietary Analysis</h2>
-//           <form onSubmit={(e) => handleSubmit('analysis', e)}>
-//             <input type="number" name="age" placeholder="Age" value={analysisForm.age} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <select name="gender" value={analysisForm.gender} onChange={(e) => handleInputChange('analysis', e)} required>
-//               <option value="">Select Gender</option>
-//               <option value="Male">Male</option>
-//               <option value="Female">Female</option>
-//               <option value="Other">Other</option>
-//             </select>
-//             <input type="number" name="weight" placeholder="Weight (kg)" value={analysisForm.weight} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <input type="number" name="heightInFeet" placeholder="Height (feet)" value={analysisForm.heightInFeet} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <textarea name="healthIssues" placeholder="Health issues (if any)" value={analysisForm.healthIssues} onChange={(e) => handleInputChange('analysis', e)}></textarea>
-//             <h3>Dietary Habits (Frequency per week)</h3>
-//             <input type="number" name="fruits" placeholder="Fruits servings" value={analysisForm.fruits} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <input type="number" name="vegetables" placeholder="Vegetables servings" value={analysisForm.vegetables} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <input type="number" name="proteinSources" placeholder="Protein source servings" value={analysisForm.proteinSources} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <input type="number" name="wholeGrains" placeholder="Whole grains servings" value={analysisForm.wholeGrains} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <input type="text" name="micronutrientDeficiency" placeholder="Micronutrient deficiency (if any, else 'none')" value={analysisForm.micronutrientDeficiency} onChange={(e) => handleInputChange('analysis', e)} required />
-//             <button type="submit">Get Analysis</button>
+      
+//       {activeTab === "analysis" && (
+//         <div className="max-w-lg mx-auto bg-white shadow rounded p-6">
+//           <h2 className="text-2xl font-semibold mb-4">Detailed Dietary Analysis</h2>
+//           <form onSubmit={handleAnalysisSubmit}>
+//             <div className="grid grid-cols-2 gap-4">
+//               <input
+//                 type="number"
+//                 name="age"
+//                 placeholder="Age"
+//                 value={analysisForm.age}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <select
+//                 name="gender"
+//                 value={analysisForm.gender}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               >
+//                 <option value="">Select Gender</option>
+//                 <option value="Male">Male</option>
+//                 <option value="Female">Female</option>
+//                 <option value="Other">Other</option>
+//               </select>
+//             </div>
+//             <div className="mt-4">
+//               <input
+//                 type="number"
+//                 name="weight"
+//                 placeholder="Weight (kg)"
+//                 value={analysisForm.weight}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="heightInFeet"
+//                 placeholder="Height (feet)"
+//                 value={analysisForm.heightInFeet}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//                 required
+//               />
+//               <textarea
+//                 name="healthIssues"
+//                 placeholder="Health issues (if any)"
+//                 value={analysisForm.healthIssues}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="w-full p-2 mb-4 border rounded"
+//               />
+//             </div>
+//             <h3 className="text-lg font-medium mb-2">Dietary Habits (per week)</h3>
+//             <div className="grid grid-cols-2 gap-4">
+//               <input
+//                 type="number"
+//                 name="fruits"
+//                 placeholder="Fruits servings"
+//                 value={analysisForm.fruits}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="vegetables"
+//                 placeholder="Vegetables servings"
+//                 value={analysisForm.vegetables}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="proteinSources"
+//                 placeholder="Protein servings"
+//                 value={analysisForm.proteinSources}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//               <input
+//                 type="number"
+//                 name="wholeGrains"
+//                 placeholder="Whole grains servings"
+//                 value={analysisForm.wholeGrains}
+//                 onChange={handleChange(setAnalysisForm)}
+//                 className="col-span-1 p-2 border rounded"
+//                 required
+//               />
+//             </div>
+//             <input
+//               type="text"
+//               name="micronutrientDeficiency"
+//               placeholder="Micronutrient deficiency (or 'none')"
+//               value={analysisForm.micronutrientDeficiency}
+//               onChange={handleChange(setAnalysisForm)}
+//               className="w-full p-2 mt-4 mb-4 border rounded"
+//               required
+//             />
+//             <button
+//               type="submit"
+//               className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+//             >
+//               Get Analysis
+//             </button>
 //           </form>
 //           {analysisResult && (
-//             <div className="result">
-//               <p><strong>Analysis:</strong></p>
-//               <pre>{analysisResult.analysis}</pre>
+//             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded whitespace-pre-wrap">
+//               <ReactMarkdown>{analysisResult}</ReactMarkdown>
 //             </div>
 //           )}
 //         </div>
 //       )}
+//       <div>
+      
+//       </div>
+      
 //     </div>
 //   );
 // }
@@ -261,64 +610,18 @@
 
 
 
-
-// "use client"
-
-// import { useState } from "react"
-// import NutritionAdviceForm from "./components/NutritionAdviceForm"
-// import MealPlanForm from "./components/MealPlanForm"
-// import DetailedAnalysisForm from "./components/DetailedAnalysisForm"
-// import TabButton from "./components/TabButton"
-
-// export default function NutritionAdvisor() {
-//   const [activeTab, setActiveTab] = useState("advice")
-
-//   const tabs = [
-//     { id: "advice", label: "Nutrition Advice" },
-//     { id: "mealPlan", label: "Meal Plan" },
-//     { id: "analysis", label: "Detailed Analysis" },
-//   ]
-
-//   return (
-//     <div className="min-h-screen bg-gray-100">
-//       <div className="max-w-4xl mx-auto p-6">
-//         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Nutrition Advisor</h1>
-//         <div className="bg-white shadow-md rounded-lg overflow-hidden">
-//           <div className="flex border-b border-gray-200">
-//             {tabs.map((tab) => (
-//               <TabButton key={tab.id} isActive={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}>
-//                 {tab.label}
-//               </TabButton>
-//             ))}
-//           </div>
-//           <div className="p-6">
-//             {activeTab === "advice" && <NutritionAdviceForm />}
-//             {activeTab === "mealPlan" && <MealPlanForm />}
-//             {activeTab === "analysis" && <DetailedAnalysisForm />}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-
-
-import React, { useState } from "react";
-import ReactMarkdown from "react-markdown"; // Import react-markdown
+import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 function App() {
+  // Tab state
   const [activeTab, setActiveTab] = useState("advice");
 
-  // -----------------------
-  // State for BMI Calculation
-  // -----------------------
+  // BMI Calculator state
   const [bmiForm, setBmiForm] = useState({ weight: "", heightInFeet: "" });
   const [bmiResult, setBmiResult] = useState(null);
 
-  // -----------------------
-  // State for Nutrition Advice
-  // -----------------------
+  // Nutrition Advice state
   const [adviceForm, setAdviceForm] = useState({
     age: "",
     gender: "",
@@ -333,9 +636,7 @@ function App() {
   });
   const [adviceResult, setAdviceResult] = useState(null);
 
-  // -----------------------
-  // State for Meal Plan
-  // -----------------------
+  // Meal Plan state
   const [mealPlanForm, setMealPlanForm] = useState({
     age: "",
     gender: "",
@@ -351,9 +652,7 @@ function App() {
   });
   const [mealPlanResult, setMealPlanResult] = useState(null);
 
-  // -----------------------
-  // State for Detailed Dietary Analysis
-  // -----------------------
+  // Detailed Dietary Analysis state
   const [analysisForm, setAnalysisForm] = useState({
     age: "",
     gender: "",
@@ -368,16 +667,31 @@ function App() {
   });
   const [analysisResult, setAnalysisResult] = useState(null);
 
-  // -----------------------
-  // Helper: Update Form Fields
-  // -----------------------
+  // History state
+  const [history, setHistory] = useState([]);
+
+  // Fetch History from backend
+  const fetchHistory = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/history");
+      const data = await res.json();
+      setHistory(data);
+    } catch (error) {
+      console.error("Error fetching history:", error);
+    }
+  };
+
+  // Fetch history on component mount
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
+  // Helper to update form fields
   const handleChange = (setter) => (e) => {
     setter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // -----------------------
-  // Handlers: Form Submission
-  // -----------------------
+  // Handler for BMI submission
   const handleBMISubmit = async (e) => {
     e.preventDefault();
     try {
@@ -391,11 +705,13 @@ function App() {
       });
       const data = await res.json();
       setBmiResult(data.bmi);
+      fetchHistory();
     } catch (error) {
       console.error("Error calculating BMI:", error);
     }
   };
 
+  // Handler for Nutrition Advice submission
   const handleAdviceSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -410,10 +726,10 @@ function App() {
           vegetables: Number(adviceForm.vegetables),
           proteinSources: Number(adviceForm.proteinSources),
           wholeGrains: Number(adviceForm.wholeGrains),
-          micronutrientDeficiency: adviceForm.micronutrientDeficiency || "none",
+          micronutrientDeficiency:
+            adviceForm.micronutrientDeficiency || "none",
         },
       };
-
       const res = await fetch("http://localhost:5000/api/nutrition-advice", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -421,11 +737,13 @@ function App() {
       });
       const data = await res.json();
       setAdviceResult(data);
+      fetchHistory();
     } catch (error) {
       console.error("Error getting advice:", error);
     }
   };
 
+  // Handler for Meal Plan submission
   const handleMealPlanSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -440,11 +758,11 @@ function App() {
           vegetables: Number(mealPlanForm.vegetables),
           proteinSources: Number(mealPlanForm.proteinSources),
           wholeGrains: Number(mealPlanForm.wholeGrains),
-          micronutrientDeficiency: mealPlanForm.micronutrientDeficiency || "none",
+          micronutrientDeficiency:
+            mealPlanForm.micronutrientDeficiency || "none",
         },
         cuisinePreference: mealPlanForm.cuisinePreference || "Any",
       };
-
       const res = await fetch("http://localhost:5000/api/meal-plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -452,11 +770,13 @@ function App() {
       });
       const data = await res.json();
       setMealPlanResult(data.mealPlan);
+      fetchHistory();
     } catch (error) {
       console.error("Error getting meal plan:", error);
     }
   };
 
+  // Handler for Detailed Analysis submission
   const handleAnalysisSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -471,10 +791,10 @@ function App() {
           vegetables: Number(analysisForm.vegetables),
           proteinSources: Number(analysisForm.proteinSources),
           wholeGrains: Number(analysisForm.wholeGrains),
-          micronutrientDeficiency: analysisForm.micronutrientDeficiency || "none",
+          micronutrientDeficiency:
+            analysisForm.micronutrientDeficiency || "none",
         },
       };
-
       const res = await fetch("http://localhost:5000/api/detailed-analysis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -482,446 +802,636 @@ function App() {
       });
       const data = await res.json();
       setAnalysisResult(data.analysis);
+      fetchHistory();
     } catch (error) {
       console.error("Error getting analysis:", error);
     }
   };
 
-  // -----------------------
-  // Render UI
-  // -----------------------
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">Nutrition Advisor</h1>
+    <div className="container mx-auto p-4">
+      {/* Header */}
+      <header className="mb-10">
+        <h1 className="text-4xl font-bold text-center text-gray-800">
+          Nutrition Advisor
+        </h1>
+      </header>
 
-      {/* Tabs */}
-      <div className="flex justify-center space-x-4 mb-8">
+      {/* Navigation Tabs */}
+      <nav className="flex justify-center space-x-4 mb-10">
         {[
           { key: "bmi", label: "BMI Calculator" },
           { key: "advice", label: "Nutrition Advice" },
           { key: "mealPlan", label: "Meal Plan" },
           { key: "analysis", label: "Dietary Analysis" },
+          { key: "history", label: "History" },
         ].map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`px-4 py-2 rounded ${
+            className={`px-5 py-2 rounded transition-colors ${
               activeTab === tab.key
-                ? "bg-blue-600 text-white"
-                : "bg-white text-blue-600 border border-blue-600"
+                ? "bg-blue-600 text-white shadow-lg"
+                : "bg-white text-blue-600 border border-blue-600 hover:bg-blue-100"
             }`}
           >
             {tab.label}
           </button>
         ))}
-      </div>
+      </nav>
 
       {/* BMI Calculator */}
       {activeTab === "bmi" && (
-        <div className="max-w-md mx-auto bg-white shadow rounded p-6">
-          <h2 className="text-2xl font-semibold mb-4">BMI Calculator</h2>
-          <form onSubmit={handleBMISubmit}>
-            <input
-              type="number"
-              name="weight"
-              placeholder="Weight (kg)"
-              value={bmiForm.weight}
-              onChange={handleChange(setBmiForm)}
-              className="w-full p-2 mb-4 border rounded"
-              required
-            />
-            <input
-              type="number"
-              name="heightInFeet"
-              placeholder="Height (feet)"
-              value={bmiForm.heightInFeet}
-              onChange={handleChange(setBmiForm)}
-              className="w-full p-2 mb-4 border rounded"
-              required
-            />
+        <section className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6 mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            BMI Calculator
+          </h2>
+          <form onSubmit={handleBMISubmit} className="space-y-4">
+            <div>
+              <label className="block font-medium text-gray-600">
+                Weight (kg)
+              </label>
+              <input
+                type="number"
+                name="weight"
+                value={bmiForm.weight}
+                onChange={handleChange(setBmiForm)}
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                required
+              />
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Height (feet)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                name="heightInFeet"
+                value={bmiForm.heightInFeet}
+                onChange={handleChange(setBmiForm)}
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                required
+              />
+            </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
             >
               Calculate BMI
             </button>
           </form>
           {bmiResult !== null && (
             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded">
-              <strong>Your BMI:</strong> {bmiResult}
+              <strong className="text-gray-700">Your BMI:</strong>{" "}
+              {bmiResult}
             </div>
           )}
-        </div>
+        </section>
       )}
 
       {/* Nutrition Advice */}
       {activeTab === "advice" && (
-        <div className=" mx-auto bg-white shadow rounded p-6">
-          <h2 className="text-2xl font-semibold mb-4">Get Nutrition Advice</h2>
-          <form onSubmit={handleAdviceSubmit}>
+        <section className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            Get Nutrition Advice
+          </h2>
+          <form onSubmit={handleAdviceSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <input
-                type="number"
-                name="age"
-                placeholder="Age"
-                value={adviceForm.age}
-                onChange={handleChange(setAdviceForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <select
-                name="gender"
-                value={adviceForm.gender}
-                onChange={handleChange(setAdviceForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
+              <div>
+                <label className="block font-medium text-gray-600">Age</label>
+                <input
+                  type="number"
+                  name="age"
+                  value={adviceForm.age}
+                  onChange={handleChange(setAdviceForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Gender
+                </label>
+                <select
+                  name="gender"
+                  value={adviceForm.gender}
+                  onChange={handleChange(setAdviceForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
-            <div className="mt-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Weight (kg)
+                </label>
+                <input
+                  type="number"
+                  name="weight"
+                  value={adviceForm.weight}
+                  onChange={handleChange(setAdviceForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Height (feet)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="heightInFeet"
+                  value={adviceForm.heightInFeet}
+                  onChange={handleChange(setAdviceForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Health Issues
+              </label>
               <input
-                type="number"
-                name="weight"
-                placeholder="Weight (kg)"
-                value={adviceForm.weight}
-                onChange={handleChange(setAdviceForm)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="heightInFeet"
-                placeholder="Height (feet)"
-                value={adviceForm.heightInFeet}
-                onChange={handleChange(setAdviceForm)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <textarea
+                type="text"
                 name="healthIssues"
-                placeholder="Health issues (if any)"
                 value={adviceForm.healthIssues}
                 onChange={handleChange(setAdviceForm)}
-                className="w-full p-2 mb-4 border rounded"
+                placeholder="e.g., diabetes, hypertension"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            <h3 className="text-lg font-medium mb-2">Dietary Habits (per week)</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div>
+              <h3 className="text-lg font-medium text-gray-700 mb-2">
+                Dietary Habits (per week)
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Fruits
+                  </label>
+                  <input
+                    type="number"
+                    name="fruits"
+                    value={adviceForm.fruits}
+                    onChange={handleChange(setAdviceForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Vegetables
+                  </label>
+                  <input
+                    type="number"
+                    name="vegetables"
+                    value={adviceForm.vegetables}
+                    onChange={handleChange(setAdviceForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Protein Sources
+                  </label>
+                  <input
+                    type="number"
+                    name="proteinSources"
+                    value={adviceForm.proteinSources}
+                    onChange={handleChange(setAdviceForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Whole Grains
+                  </label>
+                  <input
+                    type="number"
+                    name="wholeGrains"
+                    value={adviceForm.wholeGrains}
+                    onChange={handleChange(setAdviceForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Micronutrient Deficiency
+              </label>
               <input
-                type="number"
-                name="fruits"
-                placeholder="Fruits servings"
-                value={adviceForm.fruits}
+                type="text"
+                name="micronutrientDeficiency"
+                value={adviceForm.micronutrientDeficiency}
                 onChange={handleChange(setAdviceForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="vegetables"
-                placeholder="Vegetables servings"
-                value={adviceForm.vegetables}
-                onChange={handleChange(setAdviceForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="proteinSources"
-                placeholder="Protein servings"
-                value={adviceForm.proteinSources}
-                onChange={handleChange(setAdviceForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="wholeGrains"
-                placeholder="Whole grains servings"
-                value={adviceForm.wholeGrains}
-                onChange={handleChange(setAdviceForm)}
-                className="col-span-1 p-2 border rounded"
-                required
+                placeholder="e.g., iron, vitamin D"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            <input
-              type="text"
-              name="micronutrientDeficiency"
-              placeholder="Micronutrient deficiency (or 'none')"
-              value={adviceForm.micronutrientDeficiency}
-              onChange={handleChange(setAdviceForm)}
-              className="w-full p-2 mt-4 mb-4 border rounded"
-              required
-            />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
             >
               Get Advice
             </button>
           </form>
           {adviceResult && (
-            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded">
-              {/* Render the advice output using ReactMarkdown to format it */}
+            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded">
               <ReactMarkdown>
                 {`**BMI:** ${adviceResult.bmi}\n\n**Issue:** ${adviceResult.nutritionProblem}\n\n**Advice:**\n\n${adviceResult.advice}`}
               </ReactMarkdown>
             </div>
           )}
-        </div>
+        </section>
       )}
 
       {/* Meal Plan */}
       {activeTab === "mealPlan" && (
-        <div className="max-w-lg mx-auto bg-white shadow rounded p-6">
-          <h2 className="text-2xl font-semibold mb-4">Get Meal Plan</h2>
-          <form onSubmit={handleMealPlanSubmit}>
+        <section className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            Get Meal Plan
+          </h2>
+          <form onSubmit={handleMealPlanSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <input
-                type="number"
-                name="age"
-                placeholder="Age"
-                value={mealPlanForm.age}
-                onChange={handleChange(setMealPlanForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <select
-                name="gender"
-                value={mealPlanForm.gender}
-                onChange={handleChange(setMealPlanForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
+              <div>
+                <label className="block font-medium text-gray-600">Age</label>
+                <input
+                  type="number"
+                  name="age"
+                  value={mealPlanForm.age}
+                  onChange={handleChange(setMealPlanForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Gender
+                </label>
+                <select
+                  name="gender"
+                  value={mealPlanForm.gender}
+                  onChange={handleChange(setMealPlanForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
-            <div className="mt-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Weight (kg)
+                </label>
+                <input
+                  type="number"
+                  name="weight"
+                  value={mealPlanForm.weight}
+                  onChange={handleChange(setMealPlanForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Height (feet)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="heightInFeet"
+                  value={mealPlanForm.heightInFeet}
+                  onChange={handleChange(setMealPlanForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Health Issues
+              </label>
               <input
-                type="number"
-                name="weight"
-                placeholder="Weight (kg)"
-                value={mealPlanForm.weight}
-                onChange={handleChange(setMealPlanForm)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="heightInFeet"
-                placeholder="Height (feet)"
-                value={mealPlanForm.heightInFeet}
-                onChange={handleChange(setMealPlanForm)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <textarea
+                type="text"
                 name="healthIssues"
-                placeholder="Health issues (if any)"
                 value={mealPlanForm.healthIssues}
                 onChange={handleChange(setMealPlanForm)}
-                className="w-full p-2 mb-4 border rounded"
+                placeholder="e.g., diabetes, hypertension"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            <h3 className="text-lg font-medium mb-2">Dietary Habits (per week)</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div>
+              <h3 className="text-lg font-medium text-gray-700 mb-2">
+                Dietary Habits (per week)
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Fruits
+                  </label>
+                  <input
+                    type="number"
+                    name="fruits"
+                    value={mealPlanForm.fruits}
+                    onChange={handleChange(setMealPlanForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Vegetables
+                  </label>
+                  <input
+                    type="number"
+                    name="vegetables"
+                    value={mealPlanForm.vegetables}
+                    onChange={handleChange(setMealPlanForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Protein Sources
+                  </label>
+                  <input
+                    type="number"
+                    name="proteinSources"
+                    value={mealPlanForm.proteinSources}
+                    onChange={handleChange(setMealPlanForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Whole Grains
+                  </label>
+                  <input
+                    type="number"
+                    name="wholeGrains"
+                    value={mealPlanForm.wholeGrains}
+                    onChange={handleChange(setMealPlanForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Micronutrient Deficiency
+              </label>
               <input
-                type="number"
-                name="fruits"
-                placeholder="Fruits servings"
-                value={mealPlanForm.fruits}
+                type="text"
+                name="micronutrientDeficiency"
+                value={mealPlanForm.micronutrientDeficiency}
                 onChange={handleChange(setMealPlanForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="vegetables"
-                placeholder="Vegetables servings"
-                value={mealPlanForm.vegetables}
-                onChange={handleChange(setMealPlanForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="proteinSources"
-                placeholder="Protein servings"
-                value={mealPlanForm.proteinSources}
-                onChange={handleChange(setMealPlanForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="wholeGrains"
-                placeholder="Whole grains servings"
-                value={mealPlanForm.wholeGrains}
-                onChange={handleChange(setMealPlanForm)}
-                className="col-span-1 p-2 border rounded"
-                required
+                placeholder="e.g., iron, vitamin D"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            <input
-              type="text"
-              name="micronutrientDeficiency"
-              placeholder="Micronutrient deficiency (or 'none')"
-              value={mealPlanForm.micronutrientDeficiency}
-              onChange={handleChange(setMealPlanForm)}
-              className="w-full p-2 mt-4 mb-4 border rounded"
-              required
-            />
-            <input
-              type="text"
-              name="cuisinePreference"
-              placeholder="Preferred Cuisine (optional)"
-              value={mealPlanForm.cuisinePreference}
-              onChange={handleChange(setMealPlanForm)}
-              className="w-full p-2 mb-4 border rounded"
-            />
+            <div>
+              <label className="block font-medium text-gray-600">
+                Cuisine Preference
+              </label>
+              <input
+                type="text"
+                name="cuisinePreference"
+                value={mealPlanForm.cuisinePreference}
+                onChange={handleChange(setMealPlanForm)}
+                placeholder="e.g., Italian, Indian"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
             >
               Get Meal Plan
             </button>
           </form>
           {mealPlanResult && (
-            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded whitespace-pre-wrap">
+            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded whitespace-pre-wrap">
               <ReactMarkdown>{mealPlanResult}</ReactMarkdown>
             </div>
           )}
-        </div>
+        </section>
       )}
 
       {/* Detailed Dietary Analysis */}
       {activeTab === "analysis" && (
-        <div className="max-w-lg mx-auto bg-white shadow rounded p-6">
-          <h2 className="text-2xl font-semibold mb-4">Detailed Dietary Analysis</h2>
-          <form onSubmit={handleAnalysisSubmit}>
+        <section className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            Detailed Dietary Analysis
+          </h2>
+          <form onSubmit={handleAnalysisSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <input
-                type="number"
-                name="age"
-                placeholder="Age"
-                value={analysisForm.age}
-                onChange={handleChange(setAnalysisForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <select
-                name="gender"
-                value={analysisForm.gender}
-                onChange={handleChange(setAnalysisForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
+              <div>
+                <label className="block font-medium text-gray-600">Age</label>
+                <input
+                  type="number"
+                  name="age"
+                  value={analysisForm.age}
+                  onChange={handleChange(setAnalysisForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Gender
+                </label>
+                <select
+                  name="gender"
+                  value={analysisForm.gender}
+                  onChange={handleChange(setAnalysisForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
-            <div className="mt-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Weight (kg)
+                </label>
+                <input
+                  type="number"
+                  name="weight"
+                  value={analysisForm.weight}
+                  onChange={handleChange(setAnalysisForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-gray-600">
+                  Height (feet)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="heightInFeet"
+                  value={analysisForm.heightInFeet}
+                  onChange={handleChange(setAnalysisForm)}
+                  className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Health Issues
+              </label>
               <input
-                type="number"
-                name="weight"
-                placeholder="Weight (kg)"
-                value={analysisForm.weight}
-                onChange={handleChange(setAnalysisForm)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="heightInFeet"
-                placeholder="Height (feet)"
-                value={analysisForm.heightInFeet}
-                onChange={handleChange(setAnalysisForm)}
-                className="w-full p-2 mb-4 border rounded"
-                required
-              />
-              <textarea
+                type="text"
                 name="healthIssues"
-                placeholder="Health issues (if any)"
                 value={analysisForm.healthIssues}
                 onChange={handleChange(setAnalysisForm)}
-                className="w-full p-2 mb-4 border rounded"
+                placeholder="e.g., diabetes, hypertension"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            <h3 className="text-lg font-medium mb-2">Dietary Habits (per week)</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div>
+              <h3 className="text-lg font-medium text-gray-700 mb-2">
+                Dietary Habits (per week)
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Fruits
+                  </label>
+                  <input
+                    type="number"
+                    name="fruits"
+                    value={analysisForm.fruits}
+                    onChange={handleChange(setAnalysisForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Vegetables
+                  </label>
+                  <input
+                    type="number"
+                    name="vegetables"
+                    value={analysisForm.vegetables}
+                    onChange={handleChange(setAnalysisForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Protein Sources
+                  </label>
+                  <input
+                    type="number"
+                    name="proteinSources"
+                    value={analysisForm.proteinSources}
+                    onChange={handleChange(setAnalysisForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-medium text-gray-600">
+                    Whole Grains
+                  </label>
+                  <input
+                    type="number"
+                    name="wholeGrains"
+                    value={analysisForm.wholeGrains}
+                    onChange={handleChange(setAnalysisForm)}
+                    className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className="block font-medium text-gray-600">
+                Micronutrient Deficiency
+              </label>
               <input
-                type="number"
-                name="fruits"
-                placeholder="Fruits servings"
-                value={analysisForm.fruits}
+                type="text"
+                name="micronutrientDeficiency"
+                value={analysisForm.micronutrientDeficiency}
                 onChange={handleChange(setAnalysisForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="vegetables"
-                placeholder="Vegetables servings"
-                value={analysisForm.vegetables}
-                onChange={handleChange(setAnalysisForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="proteinSources"
-                placeholder="Protein servings"
-                value={analysisForm.proteinSources}
-                onChange={handleChange(setAnalysisForm)}
-                className="col-span-1 p-2 border rounded"
-                required
-              />
-              <input
-                type="number"
-                name="wholeGrains"
-                placeholder="Whole grains servings"
-                value={analysisForm.wholeGrains}
-                onChange={handleChange(setAnalysisForm)}
-                className="col-span-1 p-2 border rounded"
-                required
+                placeholder="e.g., iron, vitamin D"
+                className="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            <input
-              type="text"
-              name="micronutrientDeficiency"
-              placeholder="Micronutrient deficiency (or 'none')"
-              value={analysisForm.micronutrientDeficiency}
-              onChange={handleChange(setAnalysisForm)}
-              className="w-full p-2 mt-4 mb-4 border rounded"
-              required
-            />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
             >
               Get Analysis
             </button>
           </form>
           {analysisResult && (
-            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded whitespace-pre-wrap">
+            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded whitespace-pre-wrap">
               <ReactMarkdown>{analysisResult}</ReactMarkdown>
             </div>
           )}
-        </div>
+        </section>
       )}
-      <div>
-      
-      </div>
-      
+
+      {/* History */}
+      {activeTab === "history" && (
+        <section className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">History</h2>
+          {history.length > 0 ? (
+            <ul className="space-y-4">
+              {history.map((entry, index) => (
+                <li key={index} className="p-4 border rounded">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold text-gray-800">
+                      Type: {entry.type}
+                    </span>
+                    <small className="text-gray-500">
+                      {new Date(entry.timestamp).toLocaleString()}
+                    </small>
+                  </div>
+                  <div className="prose">
+                    <ReactMarkdown>
+                      {JSON.stringify(entry.data, null, 2)}
+                    </ReactMarkdown>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-600">No history available.</p>
+          )}
+        </section>
+      )}
     </div>
   );
 }
