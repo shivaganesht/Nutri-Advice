@@ -1,4 +1,4 @@
-# 🥗 Nutrition Advisor
+# 🥗 Nutri-Advice - A Personal Nutrition Advisor Powered By AI
 
 ## 📌 Overview
 **Nutrition Advisor** is an AI-powered web application that provides personalized dietary recommendations based on user input such as BMI, age, gender, health conditions, and eating habits. The system leverages **Google Gemini AI** to generate expert-driven nutrition advice to help users maintain a healthy lifestyle.
