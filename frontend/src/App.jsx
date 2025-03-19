@@ -1,19 +1,15 @@
-
-
-
-
 // import React, { useState, useEffect } from "react";
 // import ReactMarkdown from "react-markdown";
 
 // function App() {
-//   // Tab state
+//   Tab state
 //   const [activeTab, setActiveTab] = useState("advice");
 
-//   // BMI Calculator state
+//   BMI Calculator state
 //   const [bmiForm, setBmiForm] = useState({ weight: "", heightInFeet: "" });
 //   const [bmiResult, setBmiResult] = useState(null);
 
-//   // Nutrition Advice state
+//   Nutrition Advice state
 //   const [adviceForm, setAdviceForm] = useState({
 //     age: "",
 //     gender: "",
